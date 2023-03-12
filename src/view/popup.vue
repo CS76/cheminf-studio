@@ -8,7 +8,7 @@
           <p class="text-gray-500">is active, but key features are missing</p>
           <div class="mt-4 text-base text-dark">
             Sign up now to unlock the following awesome features:
-            <ul class="pt-2">
+            <ul class="pt-2 text-xs">
               <li>
                 <svg
                   class="inline"
