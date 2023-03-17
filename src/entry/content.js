@@ -58,14 +58,18 @@ document.body.appendChild(chemSideBar);
 
 chemButton.addEventListener("click", () => {
     let chem_sidebar = document.getElementById("chem_sidebar")
+    chem_sidebar.querySelectorAll('img').forEach(_img => {
+      _img.parentElement ? _img.parentElement.remove() : null;
+    });
     let i = 0
     document.querySelectorAll('img').forEach(element => {
       if(element.offsetHeight > 100){
+        let _element = element.cloneNode(true);
         var imageWrapper = document.createElement('div');
-        element.setAttribute('style', 'cursor:pointer; border-radius: 10px; border: 1px solid #d6d6d6; width: calc(100% - 40px); height: auto; margin: 20px 20px  0 20px; padding: 10px')
+        _element.setAttribute('style', 'cursor:pointer; border-radius: 10px; border: 1px solid #d6d6d6; width: calc(100% - 40px); height: auto; margin: 20px 20px  0 20px; padding: 10px')
         imageWrapper.setAttribute("id", "chem_instance_" + i)
-        element.addEventListener("click", OSR(i, element.src), false);
-        imageWrapper.appendChild(element)
+        _element.addEventListener("click", OSR(i, _element.src), false);
+        imageWrapper.appendChild(_element)
         chemSideBar.appendChild(imageWrapper)
       }
       i = i+1
@@ -114,7 +118,7 @@ function OSR(i, c) {
   `
     toDataURL(c, function(imgDataURL){
       if(imgDataURL){
-        axios.post("https://api.naturalproducts.net/chem/process", {
+        axios.post("https://api.naturalproducts.net/decimer/process", {
             "reference" : "chem_instance_" + i,
             "path": c,
             "img" : imgDataURL
@@ -124,14 +128,14 @@ function OSR(i, c) {
           smiles.forEach(s => {
             let smilesDiv = document.createElement('div');
 
-            smilesDiv.innerHTML = '<img src="https://api.naturalproducts.net/chem/depict/'+s+'" />'
+            smilesDiv.innerHTML = '<img width="100%" src="https://api.naturalproducts.net/chem/depict/'+s+'" />'
             smilesDiv.setAttribute('title', s)
             smilesDiv.setAttribute('style', 'width: 22%; padding: 0 1%; margin: 4px; float: left; border: 1px solid #d6d6d6; border-radius: 5px;')
             extractedDataDiv.appendChild(smilesDiv)
           })
         })
       }else{
-        axios.post("http://localhost:80/chem/process", {
+        axios.post("https://api.naturalproducts.net/decimer/process", {
             "reference" : "chem_instance_" + i,
             "path": c
         }).then(response => {
@@ -140,7 +144,7 @@ function OSR(i, c) {
           smiles.forEach(s => {
             let smilesDiv = document.createElement('div');
 
-            smilesDiv.innerHTML = '<img src="https://api.naturalproducts.net/chem/depict/'+s+'" />'
+            smilesDiv.innerHTML = '<img width="100%" src="https://api.naturalproducts.net/chem/depict/'+s+'" />'
             smilesDiv.setAttribute('title', s)
             smilesDiv.setAttribute('style', 'width: 22%; padding: 0 1%; margin: 4px; float: left; border: 1px solid #d6d6d6; border-radius: 5px;')
             extractedDataDiv.appendChild(smilesDiv)
@@ -168,9 +172,9 @@ function toDataURL(url, callback){
   xhr.send();
 }
 
-function insertAfter(referenceNode, newNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
+// function insertAfter(referenceNode, newNode) {
+//   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+// }
 
 const injectCSS = css => {
   let el = document.createElement('style');
