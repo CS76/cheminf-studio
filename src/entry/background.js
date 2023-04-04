@@ -1,4 +1,4 @@
-const server = "http://localhost:80/";
+const server = "https://dev.coconut.naturalproducts.net/";
 // let chem_user
 
 // const logging = {

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "cheminformatics-be",
-  "description": "Cheminformatics browser extension brings a suite of powerful tools and features directly to your web pages.",
+  "name": "ChemInf Studio",
+  "description": "Access a suite of powerful Cheminformatics tools directly on your web pages.",
   "version": "0.0.1",
   "background": {
     "service_worker": "/background.js"
@@ -9,8 +9,7 @@
   "action": {
     "default_popup": "popup.html"
   },
-  "permissions": ["contextMenus", "activeTab", "history", "tabs", "storage"],
-  "host_permissions": ["<all_urls>", "*://*/*"],
+  "permissions": ["storage"],
   "icons": {
     "16": "icons/16.png",
     "48": "icons/48.png",
