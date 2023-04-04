@@ -4,7 +4,7 @@
       <div class="flex-1 relative px-6 pb-0 pt-6 md:px-8">
         <div class="inline-block bg-white-600">
           <img src="./../assets/logo.png" class="h-10 w-10 mb-2" />
-          <h2 class="text-xl font-medium text-gray-900">Cheminformatics BE</h2>
+          <h2 class="text-xl font-medium text-gray-900">Cheminf Studio</h2>
           <p class="text-gray-500">is active, but key features are missing</p>
           <div class="mt-4 text-base text-dark">
             Sign up now to unlock the following awesome features:

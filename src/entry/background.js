@@ -1,4 +1,4 @@
-const server = "https://dev.coconut.naturalproducts.net";
+const server = "https://dev.coconut.naturalproducts.net/";
 // let chem_user
 
 // const logging = {
