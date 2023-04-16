@@ -108,7 +108,14 @@
           <p class="text-sm font-medium text-gray-900">
             Hello, {{ user.first_name }}!
           </p>
-          <div style="min-height: 200px"></div>
+          <div style="min-height: 200px">
+            <a
+              @click="openWorkSpace()"
+              class="cursor-pointer inline-flex items-center my-3 justify-center px-4 py-1 border border-transparent text-base font-small rounded-md text-white bg-green-500 hover:bg-green-700"
+            >
+              Open WorkSpace
+            </a>
+          </div>
         </div>
       </div>
       <div class="p-6 bg-gray-100 border-t mt-2 md:px-8">
@@ -141,7 +148,7 @@ export default {
   mounted() {
     chrome.storage.local.get("chem_user", (obj) => {
       if (obj.chem_user) {
-        this.user = obj.chem_user;
+        this.user = JSON.parse(obj.chem_user);
         this.isLoggedIn = true;
       } else {
         this.isLoggedIn = false;
@@ -154,6 +161,9 @@ export default {
     },
     register() {
       chrome.runtime.sendMessage({ action: "register_chem_user" }, () => {});
+    },
+    openWorkSpace(){
+      chrome.runtime.sendMessage({ action: "open_workspace" }, () => {});
     },
     logout() {
       chrome.storage.local.clear(() => {

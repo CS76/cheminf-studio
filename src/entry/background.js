@@ -1,4 +1,5 @@
 const server = "https://dev.coconut.naturalproducts.net/";
+// const server = "http://localhost/";
 // let chem_user
 
 // const logging = {
@@ -19,6 +20,11 @@ chrome.runtime.onMessage.addListener(function (request) {
       return createTab(
         "browser-extension?src=extension&route=/extension_login_success"
       );
+    }
+    case "open_workspace": {
+      return appendData('jobs', request.data).then(() => {
+        return createTab("workspace.html", true)
+      })
     }
     case "_chem_user_authenticated": {
       return new Promise((resolve) => {
@@ -55,15 +61,36 @@ chrome.runtime.onMessage.addListener(function (request) {
 // }
 
 // tabs
-function createTab(value) {
-  return new Promise(() => {
-    if (typeof browser === "undefined") {
-      var browser = chrome;
-    }
-    chrome.tabs.create({
+// function sendMessageToTabs(tabs) {
+//   if (typeof browser === "undefined") {
+//     var browser = chrome;
+//   }
+//   for (const tab of tabs) {
+//     browser.tabs
+//       .sendMessage(tab.id, { greeting: "Hi from background script" }, () => {
+//         browser.tabs.update(tab.id, {active: true});
+//       });
+//   }
+// }
+
+function createTab(value, local = false) {
+  if (typeof browser === "undefined") {
+    var browser = chrome;
+  }
+
+  if(!local){
+    return browser.tabs.create({
       url: server + value,
     });
-  });
+  }else{
+    browser.tabs.query({'url': browser.runtime.getURL(value)}, function(tabs) {
+        if ( tabs.length > 0 ) {
+          return browser.tabs.update(tabs[0].id,{'active':true});
+        } else {
+          return browser.tabs.create({ url: browser.runtime.getURL(value) });
+        }
+    });
+  }
 }
 
 function setData(key, value, window) {
@@ -80,6 +107,25 @@ function setData(key, value, window) {
         : resolve(value)
     )
   );
+}
+
+function appendData(key, value) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(key, d => {
+      let data = []
+      if (d.jobs && d.jobs.length > 0){
+        data = d.jobs
+      }else{
+        data = []
+      }
+      data.push(value);
+      let pData = {}
+      pData[key] = data
+      chrome.storage.local.set(pData, () => {
+        chrome.runtime.lastError ? reject(Error(chrome.runtime.lastError.message)) : resolve(data);
+      });
+    })
+  });
 }
 
 function clearData(key, window) {

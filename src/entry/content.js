@@ -1,13 +1,16 @@
-import axios from "axios";
+// import axios from "axios";
 
 if (typeof browser === "undefined") {
   var browser = chrome;
 }
-browser.runtime.onMessage.addListener((data) => {
-  var event = new CustomEvent("RecieveContent", { detail: data });
-  window.dispatchEvent(event);
-  return Promise.resolve({});
-});
+console.log("content script loaded")
+
+// browser.runtime.onMessage.addListener((data) => {
+//   console.log(data)
+//   var event = new CustomEvent("RecieveContent", { detail: data });
+//   window.dispatchEvent(event);
+//   return Promise.resolve({ response: "Hi from content script" });
+// });
 
 window.addEventListener("message", function (event) {
   if (event.source != window) {
@@ -23,7 +26,6 @@ window.addEventListener("message", function (event) {
     browser.runtime.sendMessage({ action: "_chem_user_logout" });
   }
 });
-
 
 var chemButton = document.createElement('button');
 chemButton.setAttribute("id", "chem_icon")
@@ -68,7 +70,17 @@ chemButton.addEventListener("click", () => {
         var imageWrapper = document.createElement('div');
         _element.setAttribute('style', 'cursor:pointer; border-radius: 10px; border: 1px solid #d6d6d6; width: calc(100% - 40px); height: auto; margin: 20px 20px  0 20px; padding: 10px')
         imageWrapper.setAttribute("id", "chem_instance_" + i)
-        _element.addEventListener("click", OSR(i, _element.src), false);
+        // _element.addEventListener("click", OSR(i, _element.src), false);
+        let data = {
+          id: i, 
+          src: [{ 'src': _element.src}],
+          created_at: new Date().toISOString(),
+          url: window.location.href,
+          reference: uuidv4(),
+          title: document.title,
+          favicon: getFavicon()
+        }
+        _element.addEventListener("click", openWorkSpace(data), false);
         imageWrapper.appendChild(_element)
         chemSideBar.appendChild(imageWrapper)
       }
@@ -82,95 +94,123 @@ document.getElementById('chem_sidebar_closer').addEventListener("click", () => {
   chem_sidebar.style.display = chem_sidebar.style.display === 'none' ? '' : 'none';
 })
 
-function OSR(i, c) {
-  return function(){
-    let extractedDataDiv = document.createElement('div');
-    extractedDataDiv.setAttribute('style', 'overflow: auto; text-align: center; padding: 0 20px; border-bottom: 1px solid #d6d6d6; padding-bottom: 20px;')
-    let imgWrapperDiv = document.getElementById("chem_instance_" + i)
-    imgWrapperDiv.appendChild(extractedDataDiv)
-    extractedDataDiv.innerHTML=`<svg height="50" version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-    viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
-    <circle fill="#000" stroke="none" cx="6" cy="50" r="6">
-      <animate
-        attributeName="opacity"
-        dur="1s"
-        values="0;1;0"
-        repeatCount="indefinite"
-        begin="0.1"/>    
-    </circle>
-    <circle fill="#000" stroke="none" cx="26" cy="50" r="6">
-      <animate
-        attributeName="opacity"
-        dur="1s"
-        values="0;1;0"
-        repeatCount="indefinite" 
-        begin="0.2"/>       
-    </circle>
-    <circle fill="#000" stroke="none" cx="46" cy="50" r="6">
-      <animate
-        attributeName="opacity"
-        dur="1s"
-        values="0;1;0"
-        repeatCount="indefinite" 
-        begin="0.3"/>     
-    </circle>
-  </svg>
-  `
-    toDataURL(c, function(imgDataURL){
-      if(imgDataURL){
-        axios.post("https://api.naturalproducts.net/decimer/process", {
-            "reference" : "chem_instance_" + i,
-            "path": c,
-            "img" : imgDataURL
-        }).then(response => {
-          extractedDataDiv.innerHTML=""
-          let smiles = [...new Set(response.data.smiles)].filter(n => n);
-          smiles.forEach(s => {
-            let smilesDiv = document.createElement('div');
-
-            smilesDiv.innerHTML = '<img width="100%" src="https://api.naturalproducts.net/chem/depict/'+s+'" />'
-            smilesDiv.setAttribute('title', s)
-            smilesDiv.setAttribute('style', 'width: 22%; padding: 0 1%; margin: 4px; float: left; border: 1px solid #d6d6d6; border-radius: 5px;')
-            extractedDataDiv.appendChild(smilesDiv)
-          })
-        })
-      }else{
-        axios.post("https://api.naturalproducts.net/decimer/process", {
-            "reference" : "chem_instance_" + i,
-            "path": c
-        }).then(response => {
-          extractedDataDiv.innerHTML=""
-          let smiles = [...new Set(response.data.smiles)].filter(n => n);
-          smiles.forEach(s => {
-            let smilesDiv = document.createElement('div');
-
-            smilesDiv.innerHTML = '<img width="100%" src="https://api.naturalproducts.net/chem/depict/'+s+'" />'
-            smilesDiv.setAttribute('title', s)
-            smilesDiv.setAttribute('style', 'width: 22%; padding: 0 1%; margin: 4px; float: left; border: 1px solid #d6d6d6; border-radius: 5px;')
-            extractedDataDiv.appendChild(smilesDiv)
-          })
-        })
+function getFavicon(){
+  var favicon = undefined;
+  var nodeList = document.getElementsByTagName("link");
+  for (var i = 0; i < nodeList.length; i++)
+  {
+      if((nodeList[i].getAttribute("rel") == "icon")||(nodeList[i].getAttribute("rel") == "shortcut icon"))
+      {
+          favicon = nodeList[i].getAttribute("href");
       }
-    })
+  }
+  return favicon;        
+}
+
+function openWorkSpace(data){
+  return function(){
+    let info = {}
+    info['action'] = "open_workspace";
+    info['data'] = data;
+    chrome.runtime.sendMessage(info, () => {});
   }
 }
 
-function toDataURL(url, callback){
-  var xhr = new XMLHttpRequest();
-  xhr.open('get', url);
-  xhr.responseType = 'blob';
-  xhr.onload = function(){
-    var fr = new FileReader();
-  
-    fr.onload = function(){
-      callback(this.result);
-    };
-  
-    fr.readAsDataURL(xhr.response); // async call
-  };
-  xhr.onerror = function() { callback(this.result); };
-  xhr.send();
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
 }
+
+// function OSR(i, c) {
+//   return function(){
+//     let extractedDataDiv = document.createElement('div');
+//     extractedDataDiv.setAttribute('style', 'overflow: auto; text-align: center; padding: 0 20px; border-bottom: 1px solid #d6d6d6; padding-bottom: 20px;')
+//     let imgWrapperDiv = document.getElementById("chem_instance_" + i)
+//     imgWrapperDiv.appendChild(extractedDataDiv)
+//     extractedDataDiv.innerHTML=`<svg height="50" version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+//     viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+//     <circle fill="#000" stroke="none" cx="6" cy="50" r="6">
+//       <animate
+//         attributeName="opacity"
+//         dur="1s"
+//         values="0;1;0"
+//         repeatCount="indefinite"
+//         begin="0.1"/>    
+//     </circle>
+//     <circle fill="#000" stroke="none" cx="26" cy="50" r="6">
+//       <animate
+//         attributeName="opacity"
+//         dur="1s"
+//         values="0;1;0"
+//         repeatCount="indefinite" 
+//         begin="0.2"/>       
+//     </circle>
+//     <circle fill="#000" stroke="none" cx="46" cy="50" r="6">
+//       <animate
+//         attributeName="opacity"
+//         dur="1s"
+//         values="0;1;0"
+//         repeatCount="indefinite" 
+//         begin="0.3"/>     
+//     </circle>
+//   </svg>
+//   `
+//     toDataURL(c, function(imgDataURL){
+//       if(imgDataURL){
+//         axios.post("https://api.naturalproducts.net/decimer/process", {
+//             "reference" : "chem_instance_" + i,
+//             "path": c,
+//             "img" : imgDataURL
+//         }).then(response => {
+//           extractedDataDiv.innerHTML=""
+//           let smiles = [...new Set(response.data.smiles)].filter(n => n);
+//           smiles.forEach(s => {
+//             let smilesDiv = document.createElement('div');
+
+//             smilesDiv.innerHTML = '<img width="100%" src="https://api.naturalproducts.net/chem/depict?smiles='+s+'" />'
+//             smilesDiv.setAttribute('title', s)
+//             smilesDiv.setAttribute('style', 'width: 22%; padding: 0 1%; margin: 4px; float: left; border: 1px solid #d6d6d6; border-radius: 5px;')
+//             extractedDataDiv.appendChild(smilesDiv)
+//           })
+//         })
+//       }else{
+//         axios.post("https://api.naturalproducts.net/decimer/process", {
+//             "reference" : "chem_instance_" + i,
+//             "path": c
+//         }).then(response => {
+//           extractedDataDiv.innerHTML=""
+//           let smiles = [...new Set(response.data.smiles)].filter(n => n);
+//           smiles.forEach(s => {
+//             let smilesDiv = document.createElement('div');
+
+//             smilesDiv.innerHTML = '<img width="100%" src="https://api.naturalproducts.net/chem/depict?smiles='+s+'" />'
+//             smilesDiv.setAttribute('title', s)
+//             smilesDiv.setAttribute('style', 'width: 22%; padding: 0 1%; margin: 4px; float: left; border: 1px solid #d6d6d6; border-radius: 5px;')
+//             extractedDataDiv.appendChild(smilesDiv)
+//           })
+//         })
+//       }
+//     })
+//   }
+// }
+
+// function toDataURL(url, callback){
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('get', url);
+//   xhr.responseType = 'blob';
+//   xhr.onload = function(){
+//     var fr = new FileReader();
+  
+//     fr.onload = function(){
+//       callback(this.result);
+//     };
+  
+//     fr.readAsDataURL(xhr.response); // async call
+//   };
+//   xhr.onerror = function() { callback(this.result); };
+//   xhr.send();
+// }
 
 // function insertAfter(referenceNode, newNode) {
 //   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
