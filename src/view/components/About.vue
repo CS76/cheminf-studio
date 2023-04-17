@@ -8,22 +8,24 @@
             class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
           >
             <div class="px-4 py-3">
-                <div class="sm:mx-auto mt-12 sm:w-full sm:max-w-md">
-        <img src="./../../assets/logo.png" class="mx-auto h-16 w-auto" />
-        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          ChemInf - Studio
-        </h2>
-        <p class="mt-2 text-center text-sm text-gray-600">
-          <a class="font-medium text-blue-600 hover:text-blue-500"
-            >Version: {{ version() }}</a
-          >
-        </p>
-        <p class="mt-2 mb-12 text-center text-sm text-gray-600">
-          <a class="font-medium text-blue-600 hover:text-blue-500"
-            >Developed and maintained by ChemInf team.</a
-          >
-        </p>
-      </div>
+              <div class="sm:mx-auto mt-12 sm:w-full sm:max-w-md">
+                <img src="./../../assets/logo.png" class="mx-auto h-16 w-auto" />
+                <h2
+                  class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
+                >
+                  ChemInf - Studio
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                  <a class="font-medium text-blue-600 hover:text-blue-500"
+                    >Version: {{ version() }}</a
+                  >
+                </p>
+                <p class="mt-2 mb-12 text-center text-sm text-gray-600">
+                  <a href="https://cheminf.uni-jena.de/" target="_blank" class="font-medium"
+                    >Developed and maintained by <span class="text-blue-600 hover:text-blue-500">ChemInf team</span>.</a
+                  >
+                </p>
+              </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6">
               <div>
@@ -62,7 +64,7 @@ export default {
   },
 
   methods: {
-    version(){
+    version() {
       if (typeof browser === "undefined") {
         var browser = chrome;
       }
