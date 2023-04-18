@@ -396,7 +396,7 @@
               </article>
             </div>
             <div v-else>
-              <ImportData />
+              <ImportData @addMolecules="addMolecules" />
             </div>
           </main>
           <aside
@@ -491,7 +491,12 @@
                     <div v-for="page in project.pages" :key="page">
                       <div
                         @click="selectPage(page)"
-                        :class="[ currentPage && currentPage.title == page.title ? 'bg-white' : '' , 'flex px-6 py-5 border-t justify-between space-x-3 cursor-pointer hover:bg-gray-50']"
+                        :class="[
+                          currentPage && currentPage.title == page.title
+                            ? 'bg-white'
+                            : '',
+                          'flex px-6 py-5 border-t justify-between space-x-3 cursor-pointer hover:bg-gray-50',
+                        ]"
                       >
                         <div class="min-w-0 flex-1">
                           <a class="block focus:outline-none">
@@ -543,28 +548,6 @@
           <aside
             class="hidden w-72 flex-shrink-0 border-r border-gray-200 lg:order-first lg:flex lg:flex-col"
           >
-            <div class="flex justify-center items-center text-center" v-if="processing">
-              <svg
-                class="animate-spin -ml-1 mr-3 h-5 w-5 text-dark"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-            </div>
             <div
               class="py-3.5 px-3 border-b flex flex-col justify-between space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0"
             >
@@ -607,14 +590,41 @@
               </a>
             </div>
             <div class="px-6 pb-4 pt-6 border-b">
-              <h2 class="text-lg font-medium text-gray-900">Database</h2>
+              <h2 class="text-lg font-medium text-gray-900">
+                Database
+                <div
+                  class="inline-flex justify-center items-center text-center float-right"
+                  v-if="processing"
+                >
+                  <svg
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-dark"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </div>
+              </h2>
               <p v-if="dbCount > 0" class="mt-1 text-sm text-gray-600">
                 Search database of {{ dbCount }} molecules.
               </p>
               <p class="mt-1 text-sm text-gray-600" v-else>
                 Get started by adding a new molecule.
               </p>
-              <form v-if="dbCount > 0" class="mt-6 flex gap-x-4" action="#">
+              <!-- <form v-if="dbCount > 0" class="mt-6 flex gap-x-4" action="#">
                 <div class="min-w-0 flex-1">
                   <label for="search" class="sr-only">Search</label>
                   <div class="relative rounded-md shadow-sm">
@@ -661,7 +671,7 @@
                   </svg>
                   <span class="sr-only">Search</span>
                 </button>
-              </form>
+              </form> -->
             </div>
             <nav class="min-h-0 flex-1 overflow-y-auto" aria-label="Directory">
               <div v-if="currentPage && currentPageMolecules" class="relative">
@@ -873,15 +883,15 @@ export default {
                     );
                   }
                 });
-                this.loadAction(_page)
+                this.loadAction(_page);
               } else {
                 let page = {
                   title: job.title,
                   href: url.href,
                   images: job.src,
-                }
+                };
                 _project.pages.push(page);
-                this.loadAction(page)
+                this.loadAction(page);
               }
               _project.status = "pending";
             } else {
@@ -891,17 +901,15 @@ export default {
               project.url = url.host;
               project.jobs = [job];
               let page = {
-                  title: job.title,
-                  href: url.href,
-                  images: job.src,
-              }
-              project.pages = [
-                page
-              ];
+                title: job.title,
+                href: url.href,
+                images: job.src,
+              };
+              project.pages = [page];
               project.favicon = job.favicon;
               project.status = "pending";
               this.projects.push(project);
-              this.loadAction(page)
+              this.loadAction(page);
             }
           }
         });
@@ -956,13 +964,31 @@ export default {
     },
   },
   methods: {
-    loadAction(page){
+    async addMolecules(mols){
+      console.log(mols)
+      this.processing = true;
+      await mols.forEach(mol => {
+        this.fetchMoleculeData(mol).then((response) => {
+          let _molecule = response.data;
+          let localMolecule = this.molecules[_molecule.inchikey];
+          if (!localMolecule) {
+            this.fetchMoleculeDescriptors(mol).then((response) => {
+              _molecule.descriptors = response.data;
+              this.molecules[_molecule.inchikey] = _molecule;
+              return this.setData("chem_db", this.molecules);
+            });
+          }
+        });
+      })
+      this.processing = false;
+    },
+    loadAction(page) {
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      if(params.action == 'collection'){
+      if (params.action == "collection") {
         this.sidebarOpen = true;
-        this.selectPage(page)
+        this.selectPage(page);
         window.history.replaceState(null, null, window.location.pathname);
       }
     },

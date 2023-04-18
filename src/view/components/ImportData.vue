@@ -168,13 +168,13 @@
               </li>
               <input v-bind="getInputProps()" />
             </ul>
-            <ul
+            <!-- <ul
               role="list"
-              class="mt-6 grid grid-cols-1 gap-6 border-b border-gray-200 pb-6 sm:grid-cols-2"
+              class="cursor-not-allowed mt-6 grid grid-cols-1 gap-6 border-b border-gray-200 pb-6 sm:grid-cols-2"
             >
               <li class="flow-root">
                 <div
-                  class="cursor-not-allowed relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
+                  class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
                 >
                   <div
                     class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-500"
@@ -254,7 +254,7 @@
                 Or start tour
                 <span aria-hidden="true"> →</span>
               </a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -313,14 +313,14 @@
           <div class="mt-6 flex space-x-3 md:ml-4 md:mt-0">
             <a
               type="button"
-              href="https://docs.nmrium.org/help/ocl/"
-              target="_blank"
+              href="/workspace.html"
               class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             >
-              Tutorial
+              Back
             </a>
             <a
               type="button"
+              @click="persistMolecules('manual')"
               class="inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
             >
               Save
@@ -351,8 +351,17 @@
                 d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
               /></svg
             >&nbsp;
-            <p class="inline">Paste SMILES or SDF/MOL block</p>
+            <p class="inline">Paste SMILES/SDF/MOL block or draw struture manually</p>
           </div>
+
+          <a
+            type="button"
+            href="https://docs.nmrium.org/help/ocl/"
+            target="_blank"
+            class="cursor-alias mt-4 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            How to use structure editor?
+          </a>
         </div>
       </div>
     </div>
@@ -408,15 +417,15 @@
           <div class="mt-6 flex space-x-3 md:ml-4 md:mt-0">
             <a
               type="button"
-              href="https://docs.nmrium.org/help/ocl/"
-              target="_blank"
+              href="/workspace.html"
               class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             >
-              Tutorial
+              Back
             </a>
             <a
+              @click="persistMolecules('multi')"
               type="button"
-              class="inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+              class="cursor-pointer inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
             >
               Save
             </a>
@@ -444,9 +453,6 @@
                   :width="512"
                   :molecule="mol.toSmiles()"
                 ></Depictor2D>
-                <button type="button" class="absolute inset-0 focus:outline-none">
-                  <span class="sr-only">View details for IMG_4985.HEIC</span>
-                </button>
               </div>
             </li>
           </ul>
@@ -505,15 +511,15 @@
           <div class="mt-6 flex space-x-3 md:ml-4 md:mt-0">
             <a
               type="button"
-              href="https://docs.nmrium.org/help/ocl/"
-              target="_blank"
+              href="/workspace.html"
               class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             >
-              Tutorial
+              Back
             </a>
             <a
               type="button"
-              class="inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+              @click="persistMolecules('osr')"
+              class="cursor-pointer inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
             >
               Save
             </a>
@@ -590,12 +596,12 @@
                       </button>
                     </span>
 
-                    <a
+                    <!-- <a
                       href="/workspace.html"
                       class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                     >
                       Cancel
-                    </a>
+                    </a> -->
                   </div>
                 </div>
               </div>
@@ -714,6 +720,11 @@ export default {
     async function initialiseStructureEditor(trigger = false) {
       if (trigger) {
         onTriggeredEventHandler();
+      } else {
+        optionSelected.value = true;
+        displayStructureEditor.value = true;
+        await nextTick();
+        editor.value = OCL.StructureEditor.createSVGEditor("structureEditor", 1);
       }
     }
 
@@ -796,9 +807,26 @@ export default {
     inline: {
       type: Boolean,
       default: true,
-    },
+    }
   },
   methods: {
+    async persistMolecules(mode){
+      let mols = []
+      if( mode == 'manual'){
+        let OCLMolecule = this.editor.getMolecule();
+        let mol = OCLMolecule.toSmiles();
+        mols.push(mol)
+        this.$emit('addMolecules', mols)
+      }else if(mode == 'osr'){
+        mols = Object.values(this.parsedSmiles);
+        this.$emit('addMolecules', mols)
+      }else if(mode == 'multi'){
+        this.molecules.forEach(OCLmol => {
+          mols.push(OCLmol.toSmiles())
+        });
+        this.$emit('addMolecules', mols)
+      }
+    },
     selectParsedSmiles(mol) {
       if (mol) {
         this.selectedParsedSmiles = mol;
