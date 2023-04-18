@@ -745,8 +745,8 @@ export default {
 
     function onDrop(acceptFiles, rejectReasons) {
       acceptFiles.forEach(function (file) {
+        var reader = new FileReader();
         if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-          var reader = new FileReader();
           reader.onload = () => {
             uploadedImage.title = file.name;
             uploadedImage.src = reader.result;
@@ -755,11 +755,9 @@ export default {
           };
           reader.readAsDataURL(file);
         } else {
-          var reader = new FileReader();
           reader.onload = () => {
             var fileAsString = reader.result;
             const parser = new OCL.SDFileParser(fileAsString);
-            let i = 0;
             while (parser.next()) {
               const OCLMolecule = parser.getMolecule();
               saveMolecules(OCLMolecule);
