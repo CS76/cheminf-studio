@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(function (request) {
     }
     case "open_workspace": {
       return appendData('jobs', request.data).then(() => {
-        return createTab("workspace.html", true)
+        return createTab("workspace.html?action=collection", true)
       })
     }
     case "_chem_user_authenticated": {
@@ -85,7 +85,8 @@ function createTab(value, local = false) {
   }else{
     browser.tabs.query({'url': browser.runtime.getURL(value)}, function(tabs) {
         if ( tabs.length > 0 ) {
-          return browser.tabs.update(tabs[0].id,{'active':true});
+          browser.tabs.update(tabs[0].id, {'active':true});
+          return browser.tabs.reload(tabs[0].id);
         } else {
           return browser.tabs.create({ url: browser.runtime.getURL(value) });
         }

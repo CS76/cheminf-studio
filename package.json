@@ -15,7 +15,10 @@
     "openchemlib": "^8.3.0",
     "prettier": "^2.8.4",
     "tailwindcss": "^3.2.7",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-use-hotkey": "^0.2.0",
+    "vue3-dropzone": "^2.0.1",
+    "vue3-hotkey": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

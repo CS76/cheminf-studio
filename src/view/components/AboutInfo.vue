@@ -21,8 +21,13 @@
                   >
                 </p>
                 <p class="mt-2 mb-12 text-center text-sm text-gray-600">
-                  <a href="https://cheminf.uni-jena.de/" target="_blank" class="font-medium"
-                    >Developed and maintained by <span class="text-blue-600 hover:text-blue-500">ChemInf team</span>.</a
+                  <a
+                    href="https://cheminf.uni-jena.de/"
+                    target="_blank"
+                    class="font-medium"
+                    >Developed and maintained by
+                    <span class="text-blue-600 hover:text-blue-500">ChemInf team</span
+                    >.</a
                   >
                 </p>
               </div>

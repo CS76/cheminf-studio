@@ -79,7 +79,7 @@
 
                   <span class="sr-only">About</span>
                 </a>
-                <About ref="aboutModal"></About>
+                <AboutInfo ref="aboutModal"></AboutInfo>
               </nav>
             </div>
             <div class="flex flex-shrink-0 pb-2">
@@ -114,8 +114,12 @@
           </div>
         </div>
       </div>
-
-      <div v-if="mobileSidebarOpen" class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
+      <div
+        v-if="mobileSidebarOpen"
+        class="relative z-40 lg:hidden"
+        role="dialog"
+        aria-modal="true"
+      >
         <div class="fixed inset-0 bg-slate-600 bg-opacity-75"></div>
         <div class="fixed inset-0 z-40 flex">
           <div
@@ -145,16 +149,11 @@
               </button>
             </div>
 
-            <div class="pb-4 pt-5">
-              #todo
-            </div>
-       
+            <div class="pb-4 pt-5">#todo</div>
           </div>
-          <div class="w-14 flex-shrink-0" aria-hidden="true">
-          </div>
+          <div class="w-14 flex-shrink-0" aria-hidden="true"></div>
         </div>
       </div>
-
       <div class="flex min-w-0 flex-1 flex-col">
         <div class="lg:hidden">
           <div
@@ -190,30 +189,6 @@
             class="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last"
           >
             <div v-if="selectedMolecule">
-              <nav
-                class="flex items-start px-4 py-3 sm:px-6 lg:px-8 xl:hidden"
-                aria-label="Breadcrumb"
-              >
-                <a
-                  href="#"
-                  class="inline-flex items-center space-x-3 text-sm font-medium text-gray-900"
-                >
-                  <svg
-                    class="-ml-2 h-5 w-5 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  <span>Directory</span>
-                </a>
-              </nav>
-
               <article>
                 <div>
                   <div>
@@ -421,274 +396,7 @@
               </article>
             </div>
             <div v-else>
-              <div class="bg-white h-screen flex items-center justify-center p-12">
-                <div class="bg-white py-12">
-                  <div class="mx-auto max-w-2xl px-4">
-                    <div>
-                      <h2 class="text-base font-semibold leading-6 text-gray-900">
-                        Projects
-                      </h2>
-                      <p class="mt-1 text-sm text-gray-500">
-                        You haven’t created a project yet. Get started by selecting a
-                        template or start from an empty project.
-                      </p>
-                      <ul
-                        role="list"
-                        class="mt-6 grid grid-cols-1 gap-6 border-b border-t border-gray-200 py-6 sm:grid-cols-2"
-                      >
-                        <li class="flow-root">
-                          <div
-                            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
-                          >
-                            <div
-                              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-pink-500"
-                            >
-                              <svg
-                                class="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-                                ></path>
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 class="text-sm font-medium text-gray-900">
-                                <a href="#" class="focus:outline-none">
-                                  <span
-                                    class="absolute inset-0"
-                                    aria-hidden="true"
-                                  ></span>
-                                  <span>Create a List</span>
-                                  <span aria-hidden="true"> →</span>
-                                </a>
-                              </h3>
-                              <p class="mt-1 text-sm text-gray-500">
-                                Another to-do system you’ll try but eventually give up on.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-
-                        <li class="flow-root">
-                          <div
-                            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
-                          >
-                            <div
-                              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-yellow-500"
-                            >
-                              <svg
-                                class="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                                ></path>
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 class="text-sm font-medium text-gray-900">
-                                <a href="#" class="focus:outline-none">
-                                  <span
-                                    class="absolute inset-0"
-                                    aria-hidden="true"
-                                  ></span>
-                                  <span>Create a Calendar</span>
-                                  <span aria-hidden="true"> →</span>
-                                </a>
-                              </h3>
-                              <p class="mt-1 text-sm text-gray-500">
-                                Stay on top of your deadlines, or don’t — it’s up to you.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-
-                        <li class="flow-root">
-                          <div
-                            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
-                          >
-                            <div
-                              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-green-500"
-                            >
-                              <svg
-                                class="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                                ></path>
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 class="text-sm font-medium text-gray-900">
-                                <a href="#" class="focus:outline-none">
-                                  <span
-                                    class="absolute inset-0"
-                                    aria-hidden="true"
-                                  ></span>
-                                  <span>Create a Gallery</span>
-                                  <span aria-hidden="true"> →</span>
-                                </a>
-                              </h3>
-                              <p class="mt-1 text-sm text-gray-500">
-                                Great for mood boards and inspiration.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-
-                        <li class="flow-root">
-                          <div
-                            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
-                          >
-                            <div
-                              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500"
-                            >
-                              <svg
-                                class="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z"
-                                ></path>
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 class="text-sm font-medium text-gray-900">
-                                <a href="#" class="focus:outline-none">
-                                  <span
-                                    class="absolute inset-0"
-                                    aria-hidden="true"
-                                  ></span>
-                                  <span>Create a Board</span>
-                                  <span aria-hidden="true"> →</span>
-                                </a>
-                              </h3>
-                              <p class="mt-1 text-sm text-gray-500">
-                                Track tasks in different stages of your project.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-
-                        <li class="flow-root">
-                          <div
-                            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
-                          >
-                            <div
-                              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-500"
-                            >
-                              <svg
-                                class="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0112 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5"
-                                ></path>
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 class="text-sm font-medium text-gray-900">
-                                <a href="#" class="focus:outline-none">
-                                  <span
-                                    class="absolute inset-0"
-                                    aria-hidden="true"
-                                  ></span>
-                                  <span>Create a Spreadsheet</span>
-                                  <span aria-hidden="true"> →</span>
-                                </a>
-                              </h3>
-                              <p class="mt-1 text-sm text-gray-500">
-                                Lots of numbers and things — good for nerds.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-
-                        <li class="flow-root">
-                          <div
-                            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
-                          >
-                            <div
-                              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-purple-500"
-                            >
-                              <svg
-                                class="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                ></path>
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 class="text-sm font-medium text-gray-900">
-                                <a href="#" class="focus:outline-none">
-                                  <span
-                                    class="absolute inset-0"
-                                    aria-hidden="true"
-                                  ></span>
-                                  <span>Create a Timeline</span>
-                                  <span aria-hidden="true"> →</span>
-                                </a>
-                              </h3>
-                              <p class="mt-1 text-sm text-gray-500">
-                                Get a birds-eye-view of your procrastination.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                      <div class="mt-4 flex">
-                        <a
-                          href="#"
-                          class="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                        >
-                          Or start from an empty project
-                          <span aria-hidden="true"> →</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ImportData />
             </div>
           </main>
           <aside
@@ -700,10 +408,13 @@
             >
               <div class="flex-shrink-0 border-b">
                 <div class="flex h-16 flex-col justify-center bg-white px-6">
-                  <div class="">
-                    <h2 class="text-lg truncate font-medium text-gray-900 w-full">
-                      Welcome! {{ user.name }}
-                    </h2>
+                  <div>
+                    <p>
+                      <small>Welcome!</small>
+                    </p>
+                    <p class="text-md truncate font-medium text-gray-900 w-full">
+                      {{ user.name }}
+                    </p>
                     <p class="text-sm font-medium text-gray-500 w-full">
                       <span v-if="this.projects.length > 0">
                         {{ this.projects.length }} Sources
@@ -765,7 +476,7 @@
                   <li
                     v-for="project in projects"
                     :key="project.reference"
-                    class="relative bg-white"
+                    class="relative"
                   >
                     <div
                       class="sticky top-0 z-10 border-b border-t border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500"
@@ -780,7 +491,7 @@
                     <div v-for="page in project.pages" :key="page">
                       <div
                         @click="selectPage(page)"
-                        class="flex px-6 py-5 border-t justify-between space-x-3 cursor-pointer hover:bg-gray-50"
+                        :class="[ currentPage && currentPage.title == page.title ? 'bg-white' : '' , 'flex px-6 py-5 border-t justify-between space-x-3 cursor-pointer hover:bg-gray-50']"
                       >
                         <div class="min-w-0 flex-1">
                           <a class="block focus:outline-none">
@@ -817,14 +528,14 @@
               </nav>
               <div class="p-5" v-else>
                 <div class="w-full border-2 border-dashed border-gray-300 rounded-lg">
-                  <button
+                  <span
                     type="button"
                     class="relative block w-full h-80 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    <span class="mt-2 block text-sm font-semibold text-gray-900"
-                      >No sources yet</span
+                    <span class="mt-2 block text-sm font-semibold text-gray-500"
+                      >No&nbsp;collections&nbsp;yet</span
                     >
-                  </button>
+                  </span>
                 </div>
               </div>
             </div>
@@ -855,12 +566,12 @@
               </svg>
             </div>
             <div
-              class="py-3.5 pl-3 border-b flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0"
+              class="py-3.5 px-3 border-b flex flex-col justify-between space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0"
             >
               <button
                 type="button"
                 @click="sidebarOpen = !sidebarOpen"
-                class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -877,28 +588,25 @@
                   />
                 </svg>
               </button>
-              <button
-                type="button"
-                class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              <a
+                v-if="selectedMolecule"
+                @click="importData"
+                class="cursor-pointer flex items-center gap-x-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="-ml-0.5 h-5 w-5"
+                  class="-ml-1.5 h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
+                    d="M10.75 6.75a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
+                  ></path>
                 </svg>
-                ADD
-              </button>
+                Add
+              </a>
             </div>
-            <div class="px-6 pb-4 pt-6">
+            <div class="px-6 pb-4 pt-6 border-b">
               <h2 class="text-lg font-medium text-gray-900">Database</h2>
               <p v-if="dbCount > 0" class="mt-1 text-sm text-gray-600">
                 Search database of {{ dbCount }} molecules.
@@ -906,7 +614,7 @@
               <p class="mt-1 text-sm text-gray-600" v-else>
                 Get started by adding a new molecule.
               </p>
-              <form class="mt-6 flex gap-x-4" action="#">
+              <form v-if="dbCount > 0" class="mt-6 flex gap-x-4" action="#">
                 <div class="min-w-0 flex-1">
                   <label for="search" class="sr-only">Search</label>
                   <div class="relative rounded-md shadow-sm">
@@ -1099,18 +807,21 @@
 import axios from "axios";
 import Depictor2D from "./components/Depictor2D.vue";
 import Depictor3D from "./components/Depictor3D.vue";
-import About from "./components/About.vue";
+import AboutInfo from "./components/AboutInfo.vue";
+import ImportData from "./components/ImportData.vue";
 
 export default {
   components: {
     Depictor2D,
     Depictor3D,
-    About,
+    AboutInfo,
+    ImportData,
   },
   mounted() {
     // this.clearData('jobs');
     // this.clearData('chem_projects');
     // this.clearData('chem_db');
+
     chrome.storage.local.get("chem_user", (obj) => {
       if (obj.chem_user) {
         this.user = JSON.parse(obj.chem_user);
@@ -1119,6 +830,7 @@ export default {
         this.isLoggedIn = false;
       }
     });
+
     chrome.storage.local.get("chem_projects", (obj) => {
       if (obj.chem_projects) {
         this.projects = JSON.parse(obj.chem_projects);
@@ -1129,14 +841,16 @@ export default {
         this.sidebarOpen = false;
       }
     });
+
     chrome.storage.local.get("chem_db", (obj) => {
       if (obj.chem_db) {
         this.molecules = obj.chem_db;
         let keys = Object.keys(this.molecules);
         this.dbCount = keys.length;
-        this.selectedMolecule = this.molecules[keys[0]];
+        // this.selectedMolecule = this.molecules[keys[0]];
       }
     });
+
     chrome.storage.local.get("jobs", (obj) => {
       let jobs = obj.jobs;
       if (jobs) {
@@ -1159,12 +873,15 @@ export default {
                     );
                   }
                 });
+                this.loadAction(_page)
               } else {
-                _project.pages.push({
+                let page = {
                   title: job.title,
                   href: url.href,
                   images: job.src,
-                });
+                }
+                _project.pages.push(page);
+                this.loadAction(page)
               }
               _project.status = "pending";
             } else {
@@ -1173,21 +890,24 @@ export default {
               project.updated_at = new Date().toISOString();
               project.url = url.host;
               project.jobs = [job];
-              project.pages = [
-                {
+              let page = {
                   title: job.title,
                   href: url.href,
                   images: job.src,
-                },
+              }
+              project.pages = [
+                page
               ];
               project.favicon = job.favicon;
               project.status = "pending";
               this.projects.push(project);
+              this.loadAction(page)
             }
           }
         });
         this.setData("chem_projects", JSON.stringify(this.projects));
         this.clearData("jobs");
+
         // let recentJob = jobs.pop();
         // this.setData('jobs', jobs);
 
@@ -1221,9 +941,9 @@ export default {
       selectedMolecule: null,
       molecules: {},
       dbCount: 0,
-      sidebarOpen: true,
+      sidebarOpen: false,
       displayAboutModal: false,
-      mobileSidebarOpen: false
+      mobileSidebarOpen: false,
     };
   },
   computed: {
@@ -1236,6 +956,16 @@ export default {
     },
   },
   methods: {
+    loadAction(page){
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      if(params.action == 'collection'){
+        this.sidebarOpen = true;
+        this.selectPage(page)
+        window.history.replaceState(null, null, window.location.pathname);
+      }
+    },
     clearSelection() {
       this.currentPage = null;
     },
@@ -1263,6 +993,9 @@ export default {
       return axios.get(
         "https://dev.api.naturalproducts.net/chem/descriptors?smiles=" + mol
       );
+    },
+    importData() {
+      this.selectedMolecule = null;
     },
     selectPage(page) {
       this.currentPage = page;
